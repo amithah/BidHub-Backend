@@ -9,6 +9,7 @@ dotenv.config({ path: ".env" });
 const errorHandler = require('./middleware/errorHandler');
 const connectDB = require("./config/db");
 const cronJobs = require('./cronJobs'); // Import the cron job module
+const { getPreviousBids } = require("./controllers/auctionController");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -55,6 +56,12 @@ wss.on("connection", function connection(ws, req) {
     auctionRooms.set(auctionRoomId, new Set());
   }
   auctionRooms.get(auctionRoomId).add(ws);
+    // Fetch and send previous bids to the newly connected client
+    getPreviousBids(auctionRoomId).then((previousBids) => {
+      ws.send(JSON.stringify({ type: "previousBids", data: previousBids }));
+    }).catch((err) => {
+      console.error("Error fetching previous bids:", err);
+    });
 
   // Handle WebSocket messages (e.g., bid submissions)
   ws.on("message", function incoming(message) {

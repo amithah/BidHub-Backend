@@ -5,7 +5,10 @@ const auctionController = require('../controllers/auctionController');
 const { body } = require('express-validator');
 
 router.get('/auction', auctionController.getAuctions);
+router.get('/auction/:id',auctionController.getAuction);
 router.post('/auction',auctionController.addAuction);
+
+
 
 
 module.exports = router;

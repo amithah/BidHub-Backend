@@ -1,6 +1,7 @@
 const Auction = require("../models/Auction");
 const Item = require("../models/Item");
 const Bid = require("../models/Bid");
+const { default: mongoose } = require("mongoose");
 
 const auctionController = {};
 
@@ -11,10 +12,11 @@ auctionController.getAuctions = async (req, res) => {
     const auctions = await Auction.find({})
       .skip((page - 1) * limit)
       .limit(limit)
-      .populate("item");
+      .populate("item")
+      .populate("createdBy");
 
     const bidPromises = auctions.map(async (auction) => {
-      const bids = await Bid.find({ auction: auction._id });
+      const bids = await Bid.find({ auction: auction._id }).sort({ createdAt: -1 });
       return auction.set("bids", bids, { strict: false }); // Combine auction data with fetched bids
     });
 
@@ -48,13 +50,45 @@ auctionController.addAuction = async (req, res) => {
 };
 auctionController.getAuction = async (req, res) => {
   try {
-    const auction = await Auction.find({ _id: req.id }).populate("item");
-    const bids = await Bid.find({ auction: req.id });
-    auction.set("bids", bids, { strict: false });
-    return res.status(200).json(auction);
+    // Use findById to fetch a single auction by its ID
+    let auction = await Auction.findById(req.params.id)
+      .populate("item")
+      .populate("createdBy")
+      .exec();
+
+    // Check if the auction exists
+    if (!auction) {
+      return res.status(404).json({ message: "Auction not found" });
+    }
+
+    // Fetch bids related to the auction
+    const bids = await Bid.find({ auction: auction._id }).sort({ createdAt: -1 }).exec();
+
+    // Convert the auction document to a plain JavaScript object
+    let auctionObject = auction.toObject();
+    
+    // Add the bids to the auction object
+    auctionObject.bids = bids;
+
+    // Return the modified auction object
+    return res.status(200).json(auctionObject);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    // Handle errors and send a 500 status with the error message
+    return res.status(500).json({ message: err.message });
   }
 };
+auctionController.getPreviousBids = async(id)=> {
+  try {
+    const auction = await Auction.findById(id);
+    if (!auction) {
+      return res.status(404).json({ message: "Auction not found" });
+    }
+    const bids = await Bid.find({ auction: auction._id }).sort({ createdAt: -1 }).limit(5);
+    return bids;
+  } catch (err) {
+    return { message: err.message };
+  }
+}
+
 
 module.exports = auctionController;
