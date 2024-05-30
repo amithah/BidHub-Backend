@@ -18,15 +18,12 @@ const PORT = process.env.PORT || 3000;
 global.__basedir = __dirname;
 
 // Set allowed origins for CORS
-const allowedOrigins = ["http://localhost:5173"];
+const origin =['https://bid-hub.vercel.app/',','http://localhost:3000'];
+app.use(cors({
+    origin,
+    optionsSuccessStatus:200,
 
-// Configure CORS middleware
-app.use(
-  cors({
-    origin: allowedOrigins,
-    optionsSuccessStatus: 200,
-  })
-);
+}));
 
 // Parse JSON bodies
 app.use(express.json());
