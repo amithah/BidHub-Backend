@@ -66,6 +66,16 @@ wss.on("connection", function connection(ws, req) {
     broadcastToAuctionRoom(auctionRoomId, message);
   });
 
+  wss.on("error", (error) => {
+    console.error("WebSocket server error:", error);
+    // Implement additional error handling logic here (e.g., restart server)
+  });
+  
+  ws.on("unexpected-response", (request, response) => {
+    console.warn("Received unexpected response from client:", request, response);
+    // Consider closing the connection if the response is invalid
+  });
+
   // Remove WebSocket connection when closed
   ws.on("close", function () {
     auctionRooms.get(auctionRoomId).delete(ws);
