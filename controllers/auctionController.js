@@ -83,7 +83,8 @@ auctionController.getPreviousBids = async(id)=> {
     if (!auction) {
       return res.status(404).json({ message: "Auction not found" });
     }
-    const bids = await Bid.find({ auction: auction._id }).sort({ createdAt: -1 }).limit(5);
+    const bids = await Bid.find({ auction: auction._id }).sort({ createdAt: -1 }).populate('addedBy');
+
     return bids;
   } catch (err) {
     return { message: err.message };

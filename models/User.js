@@ -6,7 +6,7 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      // required: true,
     },
     role: {
       type: String,
@@ -26,7 +26,7 @@ const userSchema = new Schema(
     },
     phone: {
       type: String,
-      required: true,
+      // required: true,
       unique: true,
       // You can add more validation rules for phone number format if needed
     },

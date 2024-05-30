@@ -6,9 +6,9 @@ const { body } = require('express-validator');
 
 router.get('/users', userController.getUsers);
 router.post('/users',[
-    body('name').notEmpty().withMessage('Name is required'),
+    // body('name').notEmpty().withMessage('Name is required'),
     body('email').isEmail().withMessage('Invalid email address'),
-    body('phone').isMobilePhone().withMessage('Invalid phone number'),
+    // body('phone').isMobilePhone().withMessage('Invalid phone number'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
   ],userController.createUser);
 
