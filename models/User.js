@@ -24,12 +24,12 @@ const userSchema = new Schema(
         "Please fill a valid email address",
       ],
     },
-    phone: {
-      type: String,
-      // required: true,
-      unique: true,
-      // You can add more validation rules for phone number format if needed
-    },
+    // phone: {
+    //   type: String,
+    //   // required: true,
+    //   unique: true,
+    //   // You can add more validation rules for phone number format if needed
+    // },
     password: {
       type: String,
       required: true,

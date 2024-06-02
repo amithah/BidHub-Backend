@@ -8,9 +8,9 @@ const authController = {};
 
 authController.register = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, name,password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ email, password: hashedPassword });
+    const newUser = await User.create({ email, name,password: hashedPassword });
     res
       .status(201)
       .json({ message: "User created successfully", user: newUser });

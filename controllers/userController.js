@@ -1,7 +1,6 @@
 // controllers/userController.js
 const User = require('../models/User');
 const { validationResult } = require('express-validator');
-const CustomError = require('../utils/CustomError');
 const bcrypt = require("bcrypt");
 
 
@@ -33,11 +32,11 @@ userController.createUser = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
   // Extract user data from request body
-  const { name, email, phone, password } = req.body;
+  const { name, email, password } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     // Create new user
-    const newUser = await User.create({ name, email, phone, "password":hashedPassword });
+    const newUser = await User.create({ name, email, "password":hashedPassword });
     res.status(201).json(newUser);
   } catch (err) {
     console.error('Error creating user:', err);

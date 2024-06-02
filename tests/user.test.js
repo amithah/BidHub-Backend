@@ -8,7 +8,7 @@ describe('createUser', () => {
     const userData = {
       // Missing name
       email: 'test@example.com',
-      phone: '1234567890',
+      // phone: '1234567890',
       password: 'password123',
     };
 
@@ -23,7 +23,7 @@ describe('createUser', () => {
     const userData = {
       name: 'Test User',
       // Missing email
-      phone: '1234567890',
+      // phone: '1234567890',
       password: 'password123',
     };
     const resp =await  request(app)
@@ -36,7 +36,7 @@ describe('createUser', () => {
     const userData = {
       name: 'Test User',
       email: 'testuser@gmail.com',
-      phone: '1234567890',
+      // phone: '1234567890',
       password: 'password123',
     }
     const resp =await  request(app)

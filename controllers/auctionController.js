@@ -90,6 +90,22 @@ auctionController.getPreviousBids = async(id)=> {
     return { message: err.message };
   }
 }
+auctionController.updateAuction = async (req, res) => {
+  try {
+    const auction = await Auction.findById(req.params.id);
+    if (!auction) {
+      return res.status(404).json({ message: "Auction not found" });
+    }
+    const updatedAuction = await Auction.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    return res.status(200).json(updatedAuction);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
 
 
 module.exports = auctionController;
