@@ -3,7 +3,7 @@ const cron = require('node-cron');
 const Auction = require('./models/Auction'); // Adjust the path to your Auction model
 const AUCTION_STATUS =require('./constants/Auction')
 const updateAuctionStatus = async () => {
-  console.log('Running cron job to update auction status');
+  // console.log('Running cron job to update auction status');
   const currentTime = new Date().getTime();
 
   try {
