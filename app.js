@@ -39,7 +39,7 @@ connectDB();
 
 // Create HTTP server
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ server , path: "/ws" });
 // Map to store WebSocket connections associated with each auction room
 const auctionRooms = new Map();
 
