@@ -79,7 +79,9 @@ auctionController.getAuction = async (req, res) => {
 };
 auctionController.getPreviousBids = async(id)=> {
   try {
-    const auction = await Auction.findById(id);
+    console.log(id);
+    const auction = await Auction.findById(mongoose.Types.ObjectId(id));
+    console.log(auction);
     if (!auction) {
       return res.status(404).json({ message: "Auction not found" });
     }
