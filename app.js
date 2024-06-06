@@ -4,6 +4,7 @@ const routes = require("./routes/index");
 const dotenv = require("dotenv");
 const http = require('http');
 const { Server } = require("socket.io");
+const logger = require('./utils/logger');
 
 dotenv.config({ path: ".env" });
 const errorHandler = require('./middleware/errorHandler');
@@ -53,8 +54,10 @@ const auctionRooms = new Map();
 // Socket.io connection handler
 io.on("connection", (socket) => {
     // Extract auction room ID from the query parameter
+   
     const auctionRoomId = socket.handshake.query.roomId;
-
+    console.log(auctionRoomId)
+    logger.info(`auctionRoomId':${auctionRoomId}`);
     // Associate socket connection with the auction room
     if (!auctionRooms.has(auctionRoomId)) {
         auctionRooms.set(auctionRoomId, new Set());
