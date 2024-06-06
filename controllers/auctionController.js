@@ -79,10 +79,9 @@ auctionController.getAuction = async (req, res) => {
 };
 auctionController.getPreviousBids = async(id)=> {
   try {
-    console.log(id);
-    const auction = await Auction.findById(mongoose.Types.ObjectId(id));
-    console.log(auction);
+    const auction = await Auction.findById(id);
     if (!auction) {
+
       return res.status(404).json({ message: "Auction not found" });
     }
     const bids = await Bid.find({ auction: auction._id }).sort({ createdAt: -1 }).populate('addedBy');
