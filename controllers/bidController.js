@@ -7,7 +7,7 @@ const bidController = {};
 bidController.getBids = async (req, res) => {
   try {
     const page = parseInt(req?.query?.page) || 1;
-    const limit = parseInt(req?.query?.limit) || 10;
+    const limit = parseInt(req?.query?.limit) || 20;
     const bids = await Bid.find({}).skip((page - 1) * limit).limit(limit).populate('item');
     return res.status(200).json(bids);
   } catch (err) {

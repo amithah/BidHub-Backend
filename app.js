@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3000;
 global.__basedir = __dirname;
 
 // Set allowed origins for CORS
-const origin = ['https://bid-hub.vercel.app', 'http://localhost:5173'];
+const origin = ['http://localhost:8080'];
 app.use(cors({
     origin,
     optionsSuccessStatus: 200,
@@ -29,7 +29,7 @@ app.use(cors({
 app.use(express.json());
 
 // Set up routes
-app.use("/", routes);
+app.use("/api", routes);
 
 // Error handler middleware (should be placed after all other middleware and routes)
 app.use(errorHandler);

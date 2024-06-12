@@ -8,8 +8,8 @@ const auctionController = {};
 auctionController.getAuctions = async (req, res) => {
   try {
     const page = parseInt(req?.query?.page) || 1;
-    const limit = parseInt(req?.query?.limit) || 10;
-    const auctions = await Auction.find({})
+    const limit = parseInt(req?.query?.limit) || 20;
+    const auctions = await Auction.find({}).sort("-createdAt")
       .skip((page - 1) * limit)
       .limit(limit)
       .populate("item")

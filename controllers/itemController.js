@@ -5,8 +5,8 @@ const itemController = {};
 itemController.getItems = async (req, res) => {
   try {
     const page = parseInt(req?.query?.page) || 1;
-    const limit = parseInt(req?.query?.limit) || 10;
-    const items = await Item.find({}).skip((page - 1) * limit).limit(limit);
+    const limit = parseInt(req?.query?.limit) || 20;
+    const items = await Item.find({}).sort("-createdAt").skip((page - 1) * limit).limit(limit);
     return res.status(200).json(items);
   } catch (err) {
     res.status(500).json({ message: err.message });
